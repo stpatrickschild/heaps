@@ -8,26 +8,55 @@ class HeapNode
 end
 
 class MinHeap
-
   def initialize
     @store = []
   end
 
   # This method adds a HeapNode instance to the heap
-  # Time Complexity: ?
-  # Space Complexity: ?
+  # Time Complexity: O (log n)
+  # Space Complexity: O (n)
   def add(key, value = key)
-    raise NotImplementedError, "Method not implemented yet..."
+    heap_node = HeapNode.new(key, value)
+    @store.push(heap_node)
+    curent_index = @store.length - 1
+    parent_index = (curent_index - 1) / 2
+    while heap_node.key < @store[parent_index].key
+      swap(curent_index, parent_index)
+      curent_index = parent_index
+      parent_index = (curent_index - 1) / 2
+      break if parent_index < 0
+    end
   end
 
   # This method removes and returns an element from the heap
   #   maintaining the heap structure
-  # Time Complexity: ?
-  # Space Complexity: ?
+  # Time Complexity: O (log n)
+  # Space Complexity: O (n)
   def remove()
-    raise NotImplementedError, "Method not implemented yet..."
+    return nil if @store.empty?
+    swap(0, @store.length - 1)
+    result = @store.pop
+    curent_index = 0
+    left_child_index = 1
+    right_child_index = 2
+    while @store[left_child_index] || @store[right_child_index]
+      if @store[right_child_index] && @store[right_child_index].key < @store[left_child_index].key && @store[right_child_index].key < @store[curent_index].key
+        swap(curent_index, right_child_index)
+        curent_index = right_child_index
+      elsif @store[right_child_index] && @store[right_child_index].key > @store[left_child_index].key && @store[left_child_index].key < @store[curent_index].key
+        swap(curent_index, left_child_index)
+        curent_index = left_child_index
+      elsif @store[left_child_index] && @store[left_child_index].key < @store[curent_index].key
+        swap(curent_index, left_child_index)
+        curent_index = left_child_index
+      else
+        break
+      end
+      left_child_index = (curent_index * 2) + 1
+      right_child_index = (curent_index * 2) + 2
+    end
+    return result.value
   end
-
 
   # Used for Testing
   def to_s
@@ -39,15 +68,15 @@ class MinHeap
     end
 
     output += @store.last.value + "]"
-      
+
     return output
   end
 
   # This method returns true if the heap is empty
-  # Time complexity: ?
-  # Space complexity: ?
+  # Time complexity: O (1)
+  # Space complexity: O (1)
   def empty?
-    raise NotImplementedError, "Method not implemented yet..."
+    return @store.empty?
   end
 
   private
@@ -58,14 +87,13 @@ class MinHeap
   # Time complexity: ?
   # Space complexity: ?
   def heap_up(index)
-    
   end
 
-  # This helper method takes an index and 
+  # This helper method takes an index and
   #  moves it up the heap if it's smaller
   #  than it's parent node.
   def heap_down(index)
-    raise NotImplementedError, "Method not implemented yet..."
+    
   end
 
   # If you want a swap method... you're welcome
