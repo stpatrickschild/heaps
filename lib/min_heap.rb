@@ -87,13 +87,28 @@ class MinHeap
   # Time complexity: ?
   # Space complexity: ?
   def heap_up(index)
+    return nil if @store.empty?
+    predecessor_index = (index - 1)/2
+    if @store[index].key >= @store[predecessor_index].key || index == 0
+      return @store
+    else
+      swap(index, predecessor_index)
+      heap_up(predecessor_index)
+    end
   end
 
   # This helper method takes an index and
   #  moves it up the heap if it's smaller
   #  than it's parent node.
   def heap_down(index)
-    
+    min = index
+    left, right = 2 * index + 1, 2 * index + 2
+    left < @store.length && @store[left].key < @store[min].key ? min = left : nil
+    right < @store.length && @store[right].key < @store[min].key ? min = right : nil
+    if min != index
+      swap(index, min)
+      heap_down(min)
+    end
   end
 
   # If you want a swap method... you're welcome
