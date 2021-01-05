@@ -88,12 +88,12 @@ class MinHeap
   # Space complexity: ?
   def heap_up(index)
     return nil if @store.empty?
-    predecessor_index = (index - 1)/2
-    if @store[index].key >= @store[predecessor_index].key || index == 0
+    parent_index = (index - 1)/2
+    if @store[index].key >= @store[parent_index].key || index == 0
       return @store
     else
-      swap(index, predecessor_index)
-      heap_up(predecessor_index)
+      swap(index, parent_index)
+      heap_up(parent_index)
     end
   end
 
